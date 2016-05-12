@@ -79,6 +79,7 @@ public class MainApplet extends PApplet{
 				character.setRad(50);
 			} else {
 				character.setRad(40);
+				character.setRad(40);
 			}
 			if(character.reseting == true) this.resetSmall(character);
 			character.display();
