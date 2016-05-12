@@ -1,7 +1,5 @@
 package main.java;
 
-import java.awt.Color;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -13,15 +11,13 @@ import processing.core.PApplet;
 public class Character {
 	public String name;
 	private MainApplet parent;
-	private float nowX, nowY;
-	public float startX, startY;
-	private int r, g, b, a;
-	public boolean mouseOnMe = false;
-	private boolean mousePress;
-	private int rad;
-	public boolean smallInBig = false;
-	public boolean reseting;
-	private int color;
+	private float nowX, nowY; //現在的X跟Y
+	public float startX, startY; //起始的X跟Y
+	public boolean mouseOnMe = false; //滑鼠有沒有移到小圓上面
+	private int rad; //小圓半徑
+	public boolean smallInBig = false; //小圓在大圓裡面
+	public boolean reseting; //判斷該不該跑回原來的位置
+	private int color; //小圓的顏色
 	private ArrayList<Character> targets;
 	private ArrayList<Integer> values;
 
@@ -29,7 +25,7 @@ public class Character {
 
 		this.parent = parent;
 		this.name = name;
-		this.color = (int) Long.parseLong(color.replace("#", ""), 16);
+		this.color = (int) Long.parseLong(color.replace("#", ""), 16); //用來存取顏色
 		this.startX = x;
 		this.startY = y;
 		this.nowX = x;
@@ -42,33 +38,24 @@ public class Character {
 	}
 	public void display(){
 		if(this.smallInBig){
-			for(Character c : targets){
+			for(Character c : targets){ //此部分為連線的部分，跟Lab8相似
 				parent.noFill();
-				parent.stroke(200);
-				if(values.get(targets.indexOf(c)) > 10)
+				parent.stroke(100);
+				if(values.get(targets.indexOf(c)) > 10) //利用value來畫線的粗度
 					parent.strokeWeight((float)values.get(targets.indexOf(c)) / 6);
 				else 
 					parent.strokeWeight((float)values.get(targets.indexOf(c)) / 2);
-				// draw the curve with two line(half of the length of two dots to the Circle center)
 				float a1 = (this.nowX + 600) / 2;
 				float b1 = (this.nowY + 325) / 2;
 				float a2 = (c.nowX + 600) / 2;
 				float b2 = (c.nowY + 325)  / 2;
-				// if the target also in circle , draw it
-				if (c.smallInBig == true)
-					parent.bezier(nowX, nowY, a1, b1, a2, b2, c.nowX, c.nowY); // 550 340
+				if (c.smallInBig == true) //畫曲線
+					parent.bezier(nowX, nowY, a1, b1, a2, b2, c.nowX, c.nowY);
 			}
 		}
-		this.parent.noStroke();
-		this.parent.fill(color);
-		this.parent.ellipse(this.nowX, this.nowY, this.rad, this.rad);
-//		if(mouseOnMe){
-//			this.parent.fill(0, 255, 255);;
-//			this.parent.rect(this.nowX, this.nowY, 70, 20);
-//			this.parent.fill(0);
-//			this.parent.text(name, this.nowX+10, this.nowY+12);
-//		}
-		
+		this.parent.noStroke(); //小圓無外框
+		this.parent.fill(color); //填滿小圓的顏色
+		this.parent.ellipse(this.nowX, this.nowY, this.rad, this.rad); //畫小圓
 	}
 
 	public void setNowX(float x){
@@ -89,9 +76,17 @@ public class Character {
 	public int getRad(){
 		return this.rad;
 	}
-	public void addTarget(Character target){ this.targets.add(target); }
-	public void addValue(Integer value){ this.values.add(value); }
-	public ArrayList<Character> getTargets(){ return this.targets; }
-	public ArrayList<Integer> getValues(){ return this.values; }
+	public void addTarget(Character target){ 
+		this.targets.add(target); 
+	}
+	public void addValue(Integer value){ 
+		this.values.add(value); 
+	}
+	public ArrayList<Character> getTargets(){ 
+		return this.targets; 
+	}
+	public ArrayList<Integer> getValues(){ 
+		return this.values; 
+	}
 	
 }
